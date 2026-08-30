@@ -1,0 +1,61 @@
+name: Fix optional setup fields
+
+on:
+  push:
+    paths:
+      - '.github/workflows/fix-optional-setup-fields.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Patch optional setup fields
+        shell: python
+        run: |
+          from pathlib import Path
+
+          path = Path("src/UnfoldedCircle.AdbTv/WebSocket/AdbWebSocketHandler.cs")
+          text = path.read_text(encoding="utf-8")
+
+          replacements = [
+              (
+                  "Text = new ValueRegex()\n                    },\n                    Label = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) { [\"en\"] = \"Enter the name of the TV (optional)\" }",
+                  "Text = new ValueRegex\n                        {\n                            Value = string.Empty\n                        }\n                    },\n                    Label = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) { [\"en\"] = \"Enter the name of the TV (optional)\" }",
+                  "entity_name",
+              ),
+              (
+                  "RegEx = AdbTvServerConstants.PairingCodeRegex\n                        }",
+                  "RegEx = AdbTvServerConstants.PairingCodeRegex,\n                            Value = string.Empty\n                        }",
+                  "pairing_code",
+              ),
+              (
+                  "RegEx = AdbTvServerConstants.PortRegex\n                        }\n                    },\n                    Label = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)\n                    {\n                        [\"en\"] = \"Pairing Port\"",
+                  "RegEx = AdbTvServerConstants.PortRegex,\n                            Value = string.Empty\n                        }\n                    },\n                    Label = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)\n                    {\n                        [\"en\"] = \"Pairing Port\"",
+                  "pairing_port",
+              ),
+          ]
+
+          for old, new, name in replacements:
+              count = text.count(old)
+              if count != 1:
+                  raise RuntimeError(f"Expected exactly one {name} pattern, found {count}")
+              text = text.replace(old, new, 1)
+
+          path.write_text(text, encoding="utf-8")
+
+      - name: Commit fix
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/UnfoldedCircle.AdbTv/WebSocket/AdbWebSocketHandler.cs
+          git commit -m "Fix optional setup field defaults"
+          git push origin main
