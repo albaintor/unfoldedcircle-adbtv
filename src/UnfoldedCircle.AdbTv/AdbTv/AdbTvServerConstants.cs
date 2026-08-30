@@ -8,6 +8,10 @@ internal static class AdbTvServerConstants
     internal const string PortKey = "port";
     internal const string EntityName = "entity_name";
     internal const string MaxMessageHandlingWaitTimeInSecondsKey = "max_message_handling_wait_time_in_seconds";
+    internal const string PollingIntervalSecondsKey = "polling_interval_seconds";
+    internal const double DefaultPollingIntervalSeconds = 5d;
+    internal const double MinPollingIntervalSeconds = 1d;
+    internal const double MaxPollingIntervalSeconds = 300d;
     internal const string Manufacturer = "manufacturer";
     internal const string AllowReauthKey = "allow_reauth";
     internal const string AppListSelectSuffix = "applist";
