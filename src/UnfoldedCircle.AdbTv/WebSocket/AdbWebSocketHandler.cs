@@ -961,7 +961,10 @@ internal sealed partial class AdbWebSocketHandler(
                     Id = AdbTvServerConstants.EntityName,
                     Field = new SettingTypeText
                     {
-                        Text = new ValueRegex()
+                        Text = new ValueRegex
+                        {
+                            Value = string.Empty
+                        }
                     },
                     Label = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) { ["en"] = "Enter the name of the TV (optional)" }
                 },
@@ -1029,7 +1032,8 @@ internal sealed partial class AdbWebSocketHandler(
                     {
                         Text = new ValueRegex
                         {
-                            RegEx = AdbTvServerConstants.PairingCodeRegex
+                            RegEx = AdbTvServerConstants.PairingCodeRegex,
+                            Value = string.Empty
                         }
                     },
                     Label = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
@@ -1060,7 +1064,8 @@ internal sealed partial class AdbWebSocketHandler(
                     {
                         Text = new ValueRegex
                         {
-                            RegEx = AdbTvServerConstants.PortRegex
+                            RegEx = AdbTvServerConstants.PortRegex,
+                            Value = string.Empty
                         }
                     },
                     Label = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
