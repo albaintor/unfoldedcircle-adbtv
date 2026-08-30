@@ -9,6 +9,13 @@ public record AdbConfigurationItem : UnfoldedCircleConfigurationItem
     public required Manufacturer Manufacturer { get; init; }
 
     /// <summary>
+    /// Interval in seconds between periodic ADB state checks. This value is treated as a global
+    /// integration setting and is mirrored across configured entities by the setup flow.
+    /// Existing configurations that don't contain this property retain the historical 5-second interval.
+    /// </summary>
+    public double PollingIntervalSeconds { get; init; } = 5d;
+
+    /// <summary>
     /// When <see langword="true"/>, after exhausting signature-only attempts within the connect budget, the
     /// integration falls through to <c>AUTH(RSAPUBLICKEY)</c> which may trigger an approval
     /// dialog on the device. This provides auto-recovery if the device forgot the key.
