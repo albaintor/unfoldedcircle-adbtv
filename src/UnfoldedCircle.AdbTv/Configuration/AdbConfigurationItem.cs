@@ -13,7 +13,7 @@ public record AdbConfigurationItem : UnfoldedCircleConfigurationItem
     /// integration setting and is mirrored across configured entities by the setup flow.
     /// Existing configurations that don't contain this property retain the historical 5-second interval.
     /// </summary>
-    public double PollingIntervalSeconds { get; init; } = 5d;
+    public double PollingIntervalSeconds { get; init; } = 5;
 
     /// <summary>
     /// When <see langword="true"/>, after exhausting signature-only attempts within the connect budget, the
