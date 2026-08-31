@@ -364,7 +364,7 @@ internal sealed partial class AdbWebSocketHandler(
             var appReferences = new List<AppReference>(packageNames.Count);
             foreach (var packageName in packageNames)
             {
-                var label = labelsByPackage.TryGetValue(packageName, out var resolvedLabel) ? resolvedLabel : packageName;
+                var label = labelsByPackage.GetValueOrDefault(packageName, packageName);
                 var displayName = label.Equals(packageName, StringComparison.OrdinalIgnoreCase) ? packageName : label;
                 appReferences.Add(new AppReference(label, packageName, displayName));
             }
