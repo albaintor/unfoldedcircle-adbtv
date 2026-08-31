@@ -764,7 +764,7 @@ internal sealed partial class AdbWebSocketHandler(
             ? parsedMaxWaitTime
             : 9.5;
         var pollingIntervalSeconds = payload.MsgData.InputValues.TryGetValue(AdbTvServerConstants.PollingIntervalSecondsKey, out var pollingIntervalValue)
-            && double.TryParse(pollingIntervalValue, NumberStyles.Float, NumberFormatInfo.InvariantInfo, out var parsedPollingInterval)
+            && ushort.TryParse(pollingIntervalValue, NumberFormatInfo.InvariantInfo, out var parsedPollingInterval)
             ? Math.Clamp(parsedPollingInterval, AdbTvServerConstants.MinPollingIntervalSeconds, AdbTvServerConstants.MaxPollingIntervalSeconds)
             : Math.Clamp(configuration.Entities.FirstOrDefault()?.PollingIntervalSeconds ?? AdbTvServerConstants.DefaultPollingIntervalSeconds,
                 AdbTvServerConstants.MinPollingIntervalSeconds, AdbTvServerConstants.MaxPollingIntervalSeconds);
